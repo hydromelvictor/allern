@@ -70,7 +70,7 @@ About to write to /home/hydromel/workspaces/dylov/jsdylov/sign/back/package.json
 Is this OK? (yes)
 ```
 
-## preparer son environement
+## preparer son environement API REST
 
 ```bash
 # creer les fichier server.js app.js
@@ -566,9 +566,32 @@ fs.rename(...)
 ```
 
 - http: pour le protocol http
+
+```javascript
+const http = require('http')
+const port = process.env.PORT || 1337
+const server = http.createServer(function (req, res) {
+  res.setHeader('Content-Type', 'application/json')
+  res.end('hi')
+})
+server.listen(port)
+console.log(`Server listening on port ${port}`)
+```
+
 - net, udp: pour le reseau
 
 - expres: pour developper les serveurs
+
+```javascript
+const express = require('express')
+const port = process.env.PORT || 1337
+const app = express()
+app.get('/', respondText)
+app.get('/json', respondJson)
+app.get('/echo', respondEcho)
+app.get('/static/*', respondStatic)
+app.listen(port, () => console.log(`Server listening on port ${port}`))
+```
 
 ## Mysql
 
@@ -598,3 +621,63 @@ connection.query('SELECT COUNT(*) AS num FROM Table', function(err, rows, fields
 connection.end();
 
 ```
+
+## mongodb
+
+```javascript
+const MongoClient = require('mongodb').MongoClient;
+const MONGO_URL = 'mongodb://localhost:27017/maDb';
+
+MongoClient.connect(MONGO_URL, (err, database) => {
+  db = database;
+})
+
+const coll = db.collection(“maCollection”)
+coll.insertOne(doc, callback);
+
+function insertProduct(name, price) {
+  const product = {
+  "name": name,
+  "price": price
+  }
+  collection.insertOne(product, (err, result) => {
+      console.log(result.insertedId)
+    })
+}
+
+collection.findOne(query [, options], callback);
+
+const ObjectID = require('mongodb').ObjectID
+
+function findProduct(id) {
+  collection.findOne( {"_id": ObjectID(id)},
+    (err, product) => {
+      return product;
+    })
+}
+
+function updateProduct(name, price) {
+  const old_product = {
+    "name": name
+  }
+
+  const new_product = {
+    "name": name,
+    "price": price
+  }
+
+  const params = { upsert: true}
+  collection.update(old_product, new_product, params)
+}
+
+// On crée notre index
+db.records.createIndex( { userid: 1 } )
+// On crée notre index multiple de produits
+db.products.createIndex( { item: 1, category: 1, price: 1 } )
+// Query executée très rapidement
+db.records.find( { userid: { $gt: 10 } } )
+```
+
+## OAuth1a, OAuth2
+
+OAuth (protocol d’autorisation) permet a une application d’avoir une autorisation pour accéder à certaines informations.
