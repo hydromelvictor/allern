@@ -81,7 +81,7 @@ docker events
 
 Un Dockerfile est un fichier texte contenant les instructions pour construire une image Docker.
 
-```bash
+```Dockerfile
 # Utiliser une image de base
 FROM ubuntu:latest
 # Installer les dépendances
@@ -93,7 +93,9 @@ COPY . /app
 WORKDIR /app
 # Exécuter le script Python
 CMD ["python3", "script.py"]
+```
 
+```bash
 # Générer une image à partir d’un dockerfile 
 docker build -t mon_image .
 # creer un volume
@@ -111,14 +113,18 @@ docker run --network=mon_reseau nom_image
 
 ```
 
-Niveau 3 : Avancé
-3.1. Docker Compose
+## Docker Compose
+
 Docker Compose permet de gérer plusieurs conteneurs à la fois avec un fichier YAML.
 
 Exemple de fichier docker-compose.yml :
 
-yaml
-Copy code
+```bash
+sudo pip install docker-compose
+docker-compose -v
+```
+
+```yaml
 version: '3'
 services:
   web:
@@ -129,38 +135,49 @@ services:
     image: postgres
     environment:
       POSTGRES_PASSWORD: example
-Commande pour lancer le tout :
+```
 
-bash
-Copy code
+```bash
+# Commande pour lancer le tout :
 docker-compose up
-3.2. Optimisation des Dockerfiles
+```
+
+### Optimisation des Dockerfiles
+
 Minimiser la taille de l’image : Utiliser des images de base légères comme alpine.
 Utiliser le cache de Docker : Docker optimise les builds en utilisant le cache des couches précédentes.
-3.3. Sécurisation de Docker
+
+### Sécurisation de Docker
+
 Exécuter les conteneurs en tant qu'utilisateur non-root pour limiter l'accès.
 Utiliser les secrets Docker pour gérer les informations sensibles (mots de passe, tokens).
-3.4. Déploiement de Docker en production
-Utiliser un orchestrateur de conteneurs comme Kubernetes ou Docker Swarm pour gérer des clusters de conteneurs.
-Monitoring et logging avec des outils comme Prometheus, Grafana et ELK Stack (Elasticsearch, Logstash, Kibana).
-Niveau 4 : Expert
-4.1. Docker Swarm
+
+## Docker Swarm
+
 Docker Swarm est une plateforme d'orchestration de conteneurs intégrée dans Docker.
 
-Initier un Swarm : docker swarm init
-Ajouter des nœuds : docker swarm join-token worker
-Déployer une application dans le Swarm : docker stack deploy -c docker-compose.yml mon_stack
-4.2. CI/CD avec Docker
+```bash
+# Initier un Swarm : 
+docker swarm init
+# Ajouter des nœuds : 
+docker swarm join-token worker
+# Déployer une application dans le Swarm : 
+docker stack deploy -c docker-compose.yml mon_stack
+```
+
+## CI/CD avec Docker
+
 Automatiser les déploiements avec Docker en utilisant un pipeline CI/CD.
 
 Intégration avec des outils comme Jenkins, GitLab CI, ou GitHub Actions pour automatiser la création et le déploiement d’images Docker.
-4.3. Multistage Builds
+
+## Multistage Builds
+
 Les builds multi-étapes permettent de créer des images Docker légères en séparant les phases de construction et d'exécution dans plusieurs étapes.
 
 Exemple :
 
-Dockerfile
-Copy code
+```Dockerfile
 # Étape 1 : Build
 FROM golang AS builder
 WORKDIR /app
@@ -172,11 +189,15 @@ FROM alpine
 WORKDIR /app
 COPY --from=builder /app/app .
 CMD ["./app"]
+```
 
-4.4. Monitoring et scaling avancé
+## Monitoring et scaling avancé
+
 Utiliser des outils de monitoring pour surveiller les ressources des conteneurs : cAdvisor, Prometheus.
 Utiliser un auto-scaling pour ajuster dynamiquement le nombre de conteneurs en fonction de la charge.
-4.5. Clusters Kubernetes
+
+## Clusters Kubernetes
+
 Intégration de Docker avec Kubernetes pour gérer des conteneurs à grande échelle dans des clusters répartis. Vous apprendrez à :
 
 Déployer un cluster Kubernetes avec kubectl.
