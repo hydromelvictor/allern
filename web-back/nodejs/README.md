@@ -431,7 +431,7 @@ exports.signup = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
     })
     .catch(error => res.status(500).json({ error }));
-};
+};npm install mysql
 
 
 exports.login = (req, res, next) => {
@@ -550,4 +550,51 @@ install :
 npm uninstall nom_du_module
 # Desintaller un module global :
 npm uninstall -g nom_du_module
+```
+
+## module de node
+
+- fs: pour les fichiers
+
+```javascript
+const fs = require('fs');
+
+fs.readFile(path, function)
+fs.writeFile(...)
+fs.mkdir(...)
+fs.rename(...)
+```
+
+- http: pour le protocol http
+- net, udp: pour le reseau
+
+- expres: pour developper les serveurs
+
+## Mysql
+
+[mysql en nodejs](https://www.npmjs.com/package/mysql)
+
+```bash
+npm install mysql
+```
+
+```javascript
+const mysql = require('mysql');
+
+mysql.createConnection({
+  host: 'localhost',
+  user: 'username',
+  password : 'pwd',
+  database : 'db_name'
+});
+
+// Ouvrir une connexion à la base :
+connection.connect();
+
+connection.query('SELECT COUNT(*) AS num FROM Table', function(err, rows, fields) {
+  if (err) throw err;
+  console.log(rows[0].num);
+});
+connection.end();
+
 ```
